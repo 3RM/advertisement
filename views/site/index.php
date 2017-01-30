@@ -31,7 +31,9 @@
             <?php foreach ($advtList as $advt): ?>
                 <tr>
                     <td><?= $advt['id'] ?></td>
-                    <td><a href="/<?= $advt['id'] ?>"><?= $advt['title'] ?></a></td>
+                    <!-- нужно добавить show в адресс ссылки перед айдишником, чтоб нормально работал пагинатор
+                           -->
+                    <td><a href="<?= $advt['id'] ?>"><?= $advt['title'] ?></a></td>
                     <td><?= $advt['description'] ?></td>
                     <td><?= $advt['creation_date'] ?></td>
                     <?php if($advt['user_id'] == User::getUserById($_SESSION['user_id'])['id']):?>
@@ -40,5 +42,6 @@
                 </tr>
             <?php endforeach; ?>
         </table>
+            <?= $pagination->get() ?>
     </body>
 </html>

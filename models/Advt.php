@@ -7,7 +7,11 @@
  */
 class Advt {
 
-    public static function getAdvtList() {
+    const SHOW_BY_DEFAULT = 5;
+
+    public static function getAdvtList($page = 1) {
+
+        $offset = ((int) $page - 1) * self::SHOW_BY_DEFAULT;
 
         $db = Db::getConnection();
 
@@ -15,7 +19,9 @@ class Advt {
 
         $result = $db->query('SELECT id, title, description, author_name, creation_date, user_id '
                 . 'FROM advt '
-                . 'ORDER BY id DESC ');
+                . 'ORDER BY id DESC '
+                . "LIMIT " . self::SHOW_BY_DEFAULT
+                . " OFFSET " . $offset);
 
         $i = 0;
         while ($row = $result->fetch()) {

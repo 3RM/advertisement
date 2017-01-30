@@ -8,8 +8,14 @@
 class SiteController {
 
     public function actionIndex($page = 1) {
-
-        $advtList = Advt::getAdvtList();
+        
+        var_dump($page);
+        
+        $advtList = Advt::getAdvtList($page);
+        
+        $total = Advt::getTotalAdvt();
+        
+        $pagination = new Pagination($total, $page, Advt::SHOW_BY_DEFAULT, 'page-');
         
         $logged = User::checkLogged();
 
@@ -51,8 +57,10 @@ class SiteController {
 //        var_dump($password);
 //        var_dump($logged);
 //        var_dump($errors);
+        
 
         require_once ROOT . '/views/site/index.php';
+        return true;
     }
 
     public function actionEdit() {
