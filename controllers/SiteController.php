@@ -8,9 +8,7 @@
 class SiteController {
 
     public function actionIndex($page = 1) {
-        
-        var_dump($page);
-        
+                
         $advtList = Advt::getAdvtList($page);
         
         $total = Advt::getTotalAdvt();
