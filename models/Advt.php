@@ -79,6 +79,23 @@ class Advt {
         return $result->execute();
     }
 
+    public static function editAdvt($id, $title, $description) {
+
+        $db = Db::getConnection();
+
+        $sql = 'UPDATE advt SET title = :title,'
+                . ' description = :description '
+                . ' WHERE id = :id';
+
+        $result = $db->prepare($sql);
+
+        $result->bindParam(':id', $id, PDO::PARAM_INT);
+        $result->bindParam(':title', $title, PDO::PARAM_STR);
+        $result->bindParam(':description', $description, PDO::PARAM_STR);
+
+        return $result->execute();
+    }
+
     public static function getLastAdvt() {
 
         $db = Db::getConnection();

@@ -2,6 +2,10 @@
 
 return array(
     
+    
+    
+    'edit/([0-9]+)' => 'advt/add/$1',
+    
     'page-([0-9]+)' => 'site/index/$1',
     
     'delete/([0-9]+)' => 'advt/delete/$1',
@@ -11,6 +15,7 @@ return array(
     
     
     'logout' => 'site/logout',
+    
     'edit' => 'advt/add',
     
 

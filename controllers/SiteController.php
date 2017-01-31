@@ -61,17 +61,7 @@ class SiteController {
         return true;
     }
 
-    public function actionEdit() {
-
-        $logged = User::checkLogged();
-
-        if ($logged) {
-            require_once ROOT . '/views/site/edit.php';
-            return true;
-        } else {
-            header('Location: /');
-        }
-    }
+    
 
     public function actionLogout() {
         unset($_SESSION['user_id']);

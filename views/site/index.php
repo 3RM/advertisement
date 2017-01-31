@@ -56,7 +56,7 @@
 					<td><?= $advt['creation_date'] ?></td>
 					<?php if($advt['user_id'] == User::getUserById($_SESSION['user_id'])['id']):?>						
 						<td class="text-center">
-							<a class='btn btn-info btn-xs' href="#">
+							<a class='btn btn-info btn-xs' href="edit/<?= $advt['id'] ?>">
 								<span class="glyphicon glyphicon-edit"></span>Edit
 							</a>
 							<a href="delete/<?= $advt['id'] ?>" class="btn btn-danger btn-xs">

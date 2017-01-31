@@ -12,8 +12,9 @@
         <td><?= $advt['title'] ?></td>
         <td><?= $advt['description'] ?></td>
         <td><?= $advt['creation_date'] ?></td>
-        <td><?= $advt['user_id'] ?></td>
+        <td><?= $advt['user_id'] ?></td>        
         <?php if ($advt['user_id'] == User::getUserById($_SESSION['user_id'])['id']): ?>
+            <td><a href="edit/<?= $advt['id'] ?>">edit</td>    
             <td><a href="delete/<?= $advt['id'] ?>">del</a></td>
         <?php endif; ?>
     </tr>
