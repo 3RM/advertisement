@@ -14,7 +14,7 @@ return array(
     '([0-9]+)' => 'advt/show/$1',
     
     
-    'logout' => 'site/logout',
+    'logout' => 'user/logout',
     
     'edit' => 'advt/add',
     

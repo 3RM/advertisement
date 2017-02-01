@@ -62,17 +62,18 @@ class Advt {
         return $result->execute();
     }
 
-    public static function addAdvt($title, $description, $user_id) {
+    public static function addAdvt($title, $description, $author_name, $user_id) {
 
         $db = Db::getConnection();
 
-        $sql = 'INSERT INTO advt (title, description, user_id) '
-                . 'VALUES (:title, :description, :user_id)';
+        $sql = 'INSERT INTO advt (title, description, author_name, user_id) '
+                . 'VALUES (:title, :description, :author_name, :user_id)';
 
         $result = $db->prepare($sql);
 
         $result->bindParam(':title', $title, PDO::PARAM_STR);
         $result->bindParam(':description', $description, PDO::PARAM_STR);
+        $result->bindParam(':author_name', $author_name, PDO::PARAM_STR);
         $result->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
 

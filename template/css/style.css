@@ -12,3 +12,10 @@
 .logout-lnk{
 	font-size: 5pt;
 }
+.pagination{
+    float: left;
+}
+
+.container{
+    margin: 10px;
+}

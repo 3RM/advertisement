@@ -6,6 +6,12 @@
  * @author rodnoy
  */
 class SiteController {
+    
+    private $isLogged;
+
+    public function __construct() {
+        $this->isLogged = User::checkLogged();
+    }
 
     public function actionIndex($page = 1) {
                 
@@ -15,7 +21,7 @@ class SiteController {
         
         $pagination = new Pagination($total, $page, Advt::SHOW_BY_DEFAULT, 'page-');
         
-        $logged = User::checkLogged();
+        $user = User::getUserById($this->isLogged);
 
         $username = '';
         $password = '';
@@ -63,9 +69,9 @@ class SiteController {
 
     
 
-    public function actionLogout() {
-        unset($_SESSION['user_id']);
-        header('Location: /');
-    }
+//    public function actionLogout() {
+//        unset($_SESSION['user_id']);
+//        header('Location: /');
+//    }
 
 }

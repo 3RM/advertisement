@@ -1,22 +1,40 @@
-<table>
-    <th>ID</th>
-    <th>TITLE</th>
-    <th>DESCRIPTION</th>
-    <th>CREATION DATE</th>
-    <th>USER ID</th>
-    <?php if (User::getUserById($_SESSION['user_id'])['id'] == $advt['user_id']): ?>
-        <th>action</th>
-    <?php endif; ?>
-    <tr>
-        <td><?= $advt['id'] ?></td>
-        <td><?= $advt['title'] ?></td>
-        <td><?= $advt['description'] ?></td>
-        <td><?= $advt['creation_date'] ?></td>
-        <td><?= $advt['user_id'] ?></td>        
-        <?php if ($advt['user_id'] == User::getUserById($_SESSION['user_id'])['id']): ?>
-            <td><a href="edit/<?= $advt['id'] ?>">edit</td>    
-            <td><a href="delete/<?= $advt['id'] ?>">del</a></td>
-        <?php endif; ?>
-    </tr>
-</table>
+<?php include_once ROOT . '/views/site/layouts/header.php'; ?>       
+<div class="container pull-left">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+        <h2>View Advertisement</h2>
+        <table class="table table-striped custab">
+            <thead>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>DESCRIPTION</th>
+                <th>AUTHOR</th>
+                <th>CREATION DATE</th>
+            
+
+            <?php if ($user['id'] == $advt['user_id']): ?>
+                <th>ACTIONS</th>
+                
+            <?php endif; ?>
+            </thead>
+            <tr>
+                <td><?= $advt['id'] ?></td>
+                <td><?= $advt['title'] ?></td>
+                <td><?= $advt['description'] ?></td>
+                <td><?= $advt['author_name'] ?></td>
+                <td><?= $advt['creation_date'] ?></td>        
+                <?php if ($advt['user_id'] == $user['id']): ?>
+                    <td class="text-center">
+                        <a class='btn btn-info btn-xs' href="edit/<?= $advt['id'] ?>">
+                            <span class="glyphicon glyphicon-edit"></span>Edit
+                        </a>
+                        <a href="delete/<?= $advt['id'] ?>" class="btn btn-danger btn-xs">
+                            <span class="glyphicon glyphicon-remove"></span>Del
+                        </a>
+                    </td>
+                <?php endif; ?>
+            </tr>
+        </table>
+    </div>
+</div>
+
 
