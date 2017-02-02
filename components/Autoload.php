@@ -1,5 +1,5 @@
 <?php
-
+//Автозагрузка классов
 function __autoload($class_name) {
     //Папки, в которых хранятся наши классы
     $array_paths = array(

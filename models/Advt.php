@@ -1,16 +1,23 @@
 <?php
 
 /**
- * Description of Product
- *
- * @author rodnoy
+ * Модель для работы с обьявлениями
  */
 class Advt {
-
+    
+    //Колличество выводимых обьявлений по умолчанию
     const SHOW_BY_DEFAULT = 5;
-
+    
+    /**
+     * Возвращает массив, в котором будет
+     * заданое константой колличество обьявлений
+     * для определенной страницы в входящем параметре
+     * @param string $page
+     * @return array
+     */
     public static function getAdvtList($page = 1) {
-
+        
+        //Смещение в выборке из БД для определенной страницы
         $offset = ((int) $page - 1) * self::SHOW_BY_DEFAULT;
 
         $db = Db::getConnection();
@@ -36,7 +43,12 @@ class Advt {
 
         return $advtList;
     }
-
+    
+    /**
+     * Возвращает массив данных определенного обьявления
+     * @param string $id
+     * @return array
+     */
     public static function getAdvtById($id) {
 
         $id = intval($id);
@@ -49,7 +61,12 @@ class Advt {
 
         return $result->fetch();
     }
-
+    
+    /**
+     * Удаляет обьявление
+     * @param string $id
+     * @return boolean
+     */
     public static function deleteAdvt($id) {
 
         $id = intval($id);
@@ -61,7 +78,15 @@ class Advt {
         $result->bindParam(':id', $id, PDO::PARAM_INT);
         return $result->execute();
     }
-
+    
+    /**
+     * Создает новое обьявление в БД
+     * @param string $title
+     * @param string $description
+     * @param string $author_name
+     * @param string $user_id
+     * @return boolean
+     */
     public static function addAdvt($title, $description, $author_name, $user_id) {
 
         $db = Db::getConnection();
@@ -79,7 +104,14 @@ class Advt {
 
         return $result->execute();
     }
-
+    
+    /**
+     * Обновляет существующее обьявление
+     * @param string $id
+     * @param string $title
+     * @param string $description
+     * @return boolean
+     */
     public static function editAdvt($id, $title, $description) {
 
         $db = Db::getConnection();
@@ -97,6 +129,10 @@ class Advt {
         return $result->execute();
     }
 
+    /**
+     * Возвращает id последнего записаного обьявления в БД
+     * @return array
+     */
     public static function getLastAdvt() {
 
         $db = Db::getConnection();
@@ -107,7 +143,11 @@ class Advt {
 
         return $row['id'];
     }
-
+    
+    /**
+     * Возвращает общее колличество обьявлений в БД
+     * @return array
+     */
     public static function getTotalAdvt() {
 
         $db = Db::getConnection();

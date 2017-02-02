@@ -1,9 +1,7 @@
 <?php
 
 /**
- * Description of User
- *
- * @author rodnoy
+ * Модель для работы с пользователем
  */
 class User {
 
@@ -24,7 +22,7 @@ class User {
 
         $result->bindParam(':username', $username, PDO::PARAM_STR);
         $result->bindParam(':password', $password, PDO::PARAM_STR);
-        
+
 
         return $result->execute();
     }
@@ -77,7 +75,7 @@ class User {
      * Проверяем существует ли пользователь с заданными $username и $password
      * @param string $username
      * @param string $password
-     * @return mised: integer user id or false
+     * @return mixed: integer or boolean
      */
     public static function checkUserData($username, $password) {
 
@@ -94,7 +92,6 @@ class User {
         if ($user) {
             return $user['id'];
         }
-
         return false;
     }
 
@@ -104,7 +101,7 @@ class User {
      */
     public static function auth($userId) {
         $_SESSION['user_id'] = $userId;
-        
+
         return $userId;
     }
 
@@ -122,20 +119,6 @@ class User {
             //header('Location: /');
             return false;
         }
-    }
-
-    /**
-     * Проверяем наличие сессии пользователя,
-     * для правильного отображения кнопок
-     * управления кабинетом
-     * @return boolean
-     */
-    public static function isGuest() {
-
-        if (isset($_SESSION['user_id'])) {
-            return false;
-        }
-        return true;
     }
 
     /**

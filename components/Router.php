@@ -1,15 +1,8 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of Router
- *
- * @author rodnoy
+ * Обрабатывает URL, определяет методы контроллеров,
+ * которые в свою очередь будут генерировать вид страниц
  */
 class Router {
 
@@ -17,12 +10,13 @@ class Router {
     private $routes;
 
     public function __construct() {
+        //Подключаем массив маршрутов
         $routesPath = ROOT . '/config/routes.php';
         $this->routes = include($routesPath);
     }
 
     /**
-     * Returns request string
+     * Возвращает строку запроса
      * @return string
      */
     private function getURI() {
@@ -42,9 +36,9 @@ class Router {
         foreach ($this->routes as $uriPattern => $path) {
             //Сравниваем $uriPattern и $uri
             if (preg_match("~$uriPattern~", $uri)) {
-                
+
                 //Получаем внутренний путь из внешнего согласно правилу
-                $internalRoute = preg_replace("~$uriPattern~",$path, $uri);
+                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
                 //Определить controller, action, params
                 $segments = explode('/', $internalRoute);
 
@@ -52,9 +46,9 @@ class Router {
                 $controllerName = ucfirst($controllerName);
 
                 $actionName = 'action' . ucfirst(array_shift($segments));
-                
-                $parameters = $segments;                
-                
+
+                $parameters = $segments;
+
                 //Подключить файл класса-контроллера
                 $controllerFile = ROOT . '/controllers/' .
                         $controllerName . '.php';
@@ -65,9 +59,8 @@ class Router {
 
                 //Создать обьект, вызвать action
                 $controllerObject = new $controllerName;
-                //$result = $controllerObject->$actionName($parameters);
                 $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
-                
+
                 //Если action существует,
                 //то обрываем foreach (поиск контроллеров и методов)
                 if ($result != null) {

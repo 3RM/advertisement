@@ -1,37 +1,48 @@
 <?php
 
 /**
- * Description of SiteController
- *
- * @author rodnoy
+ * Контроллер отвечает за генерирование главной страницы
  */
 class SiteController {
-    
+
     private $isLogged;
 
+    /**
+     * Свойству isLogged присваивается идентификатор пользователя,
+     * если сессия существует
+     */
     public function __construct() {
         $this->isLogged = User::checkLogged();
     }
 
+    /**
+     * Генерирует главную страницу с обьявлениями.
+     * Вывод списка записей, форму авторизации.
+     * @param string $page
+     * @return boolean
+     */
     public function actionIndex($page = 1) {
-                
+
+        //Сохраняет массив записей из БД,
+        //в зависимости от выбранной страницы пагинации
         $advtList = Advt::getAdvtList($page);
-        
+
+        //Общее колличество записей в БД
         $total = Advt::getTotalAdvt();
-        
+
+        //Пагинатор. В него необходимо передать общее колличество записей в БД,
+        //текущую страницу, колличество выводимых на странцицу записей, ключ для URL
         $pagination = new Pagination($total, $page, Advt::SHOW_BY_DEFAULT, 'page-');
-        
+
         $user = User::getUserById($this->isLogged);
 
         $username = '';
         $password = '';
         $errors = false;
-
+        //Если данные переданы на сервер
         if (isset($_POST['check_log'])) {
             $username = filter_input(INPUT_POST, 'username');
             $password = filter_input(INPUT_POST, 'password');
-
-
 
             //Валидация полей
             if (!User::checkUsername($username)) {
@@ -40,12 +51,17 @@ class SiteController {
             if (!User::checkPassword($password)) {
                 $errors[] = "password не должен быть короче 6-ти символов";
             }
-
+            //Если поля прошли валидацию
             if ($errors == false) {
+                //Если в БД будет найден пользователь с таким логином
+                //и паролем, то авторизуем гостя
                 if (User::checkUserData($username, $password)) {
                     $userId = User::checkUserData($username, $password);
                     User::auth($userId);
                     header('Location: /');
+
+                    //Если введеный логин не найдет совпадение в БД,
+                    //регестрируем гостя, после авторизуем 
                 } elseif (!User::checkUsernameExists($username)) {
                     User::register($username, $password);
                     $userId = User::checkUserData($username, $password);
@@ -56,22 +72,8 @@ class SiteController {
                 }
             }
         }
-
-//        var_dump($username);
-//        var_dump($password);
-//        var_dump($logged);
-//        var_dump($errors);
-        
-
         require_once ROOT . '/views/site/index.php';
         return true;
     }
-
-    
-
-//    public function actionLogout() {
-//        unset($_SESSION['user_id']);
-//        header('Location: /');
-//    }
 
 }

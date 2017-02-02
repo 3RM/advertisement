@@ -1,9 +1,7 @@
 <?php
 
 /**
- * Description of Db
- *
- * @author rodnoy
+ * Подключение к БД. Возвращает PDO объект
  */
 class Db {
 
