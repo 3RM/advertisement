@@ -23,7 +23,7 @@ class SiteController {
      */
     public function actionIndex($page = 1) {
 
-        //Сохраняет массив записей из БД,
+        //Получает массив записей из БД,
         //в зависимости от выбранной страницы пагинации
         $advtList = Advt::getAdvtList($page);
 

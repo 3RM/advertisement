@@ -145,7 +145,7 @@ class Advt {
     }
     
     /**
-     * Возвращает общее колличество обьявлений в БД
+     * Возвращает количество обьявлений в БД
      * @return array
      */
     public static function getTotalAdvt() {
