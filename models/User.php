@@ -3,7 +3,7 @@
 /**
  * Модель для работы с пользователем
  */
-class User {
+class User extends Db{
 
     /**
      * Записываем пользователя в БД 
@@ -13,12 +13,10 @@ class User {
      */
     public static function register($username, $password) {
 
-        $db = Db::getConnection();
-
         $sql = 'INSERT INTO users (username, password) '
                 . 'VALUES (:username, :password)';
 
-        $result = $db->prepare($sql);
+        $result = self::getConnection()->prepare($sql);
 
         $result->bindParam(':username', $username, PDO::PARAM_STR);
         $result->bindParam(':password', $password, PDO::PARAM_STR);
@@ -58,11 +56,9 @@ class User {
      */
     public static function checkUsernameExists($username) {
 
-        $db = Db::getConnection();
-
         $sql = "SELECT count(*) FROM users WHERE username = :username";
 
-        $result = $db->prepare($sql);
+        $result = self::getConnection()->prepare($sql);
         $result->bindParam(':username', $username, PDO::PARAM_STR);
         $result->execute();
 
@@ -79,11 +75,9 @@ class User {
      */
     public static function checkUserData($username, $password) {
 
-        $db = Db::getConnection();
-
         $sql = "SELECT * FROM users WHERE username = :username AND password = :password";
 
-        $result = $db->prepare($sql);
+        $result = self::getConnection()->prepare($sql);
         $result->bindParam(':username', $username, PDO::PARAM_STR);
         $result->bindParam(':password', $password, PDO::PARAM_STR);
         $result->execute();
@@ -130,11 +124,9 @@ class User {
 
         if ($id) {
 
-            $db = Db::getConnection();
-
             $sql = "SELECT id, username, password FROM users WHERE id = :id";
 
-            $result = $db->prepare($sql);
+            $result = self::getConnection()->prepare($sql);
             $result->bindParam(':id', $id, PDO::PARAM_INT);
             $result->setFetchMode(PDO::FETCH_ASSOC);
             $result->execute();

@@ -3,7 +3,7 @@
 /**
  * Модель для работы с обьявлениями
  */
-class Advt {
+class Advt extends Db{
     
     //Колличество выводимых обьявлений по умолчанию
     const SHOW_BY_DEFAULT = 5;
@@ -20,11 +20,9 @@ class Advt {
         //Смещение в выборке из БД для определенной страницы
         $offset = ((int) $page - 1) * self::SHOW_BY_DEFAULT;
 
-        $db = Db::getConnection();
-
         $advtList = array();
 
-        $result = $db->query('SELECT id, title, description, author_name, creation_date, user_id '
+        $result = self::getConnection()->query('SELECT id, title, description, author_name, creation_date, user_id '
                 . 'FROM advt '
                 . 'ORDER BY id DESC '
                 . "LIMIT " . self::SHOW_BY_DEFAULT
@@ -53,9 +51,7 @@ class Advt {
 
         $id = intval($id);
 
-        $db = Db::getConnection();
-
-        $result = $db->query("SELECT * FROM advt "
+        $result = self::getConnection()->query("SELECT * FROM advt "
                 . "WHERE id=$id ");
         $result->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -71,10 +67,8 @@ class Advt {
 
         $id = intval($id);
 
-        $db = Db::getConnection();
-
         $sql = ("DELETE FROM advt WHERE id = :id");
-        $result = $db->prepare($sql);
+        $result = self::getConnection()->prepare($sql);
         $result->bindParam(':id', $id, PDO::PARAM_INT);
         return $result->execute();
     }
@@ -89,12 +83,10 @@ class Advt {
      */
     public static function addAdvt($title, $description, $author_name, $user_id) {
 
-        $db = Db::getConnection();
-
         $sql = 'INSERT INTO advt (title, description, author_name, user_id) '
                 . 'VALUES (:title, :description, :author_name, :user_id)';
 
-        $result = $db->prepare($sql);
+        $result = self::getConnection()->prepare($sql);
 
         $result->bindParam(':title', $title, PDO::PARAM_STR);
         $result->bindParam(':description', $description, PDO::PARAM_STR);
@@ -114,13 +106,11 @@ class Advt {
      */
     public static function editAdvt($id, $title, $description) {
 
-        $db = Db::getConnection();
-
         $sql = 'UPDATE advt SET title = :title,'
                 . ' description = :description '
                 . ' WHERE id = :id';
 
-        $result = $db->prepare($sql);
+        $result = self::getConnection()->prepare($sql);
 
         $result->bindParam(':id', $id, PDO::PARAM_INT);
         $result->bindParam(':title', $title, PDO::PARAM_STR);
@@ -135,9 +125,7 @@ class Advt {
      */
     public static function getLastAdvt() {
 
-        $db = Db::getConnection();
-
-        $result = $db->query("SELECT id FROM advt ORDER BY id DESC LIMIT 1");
+        $result = self::getConnection()->query("SELECT id FROM advt ORDER BY id DESC LIMIT 1");
         $result->setFetchMode(PDO::FETCH_ASSOC);
         $row = $result->fetch();
 
@@ -150,9 +138,7 @@ class Advt {
      */
     public static function getTotalAdvt() {
 
-        $db = Db::getConnection();
-
-        $result = $db->query("SELECT count(id) AS count FROM advt ");
+        $result = self::getConnection()->query("SELECT count(id) AS count FROM advt ");
         $result->setFetchMode(PDO::FETCH_ASSOC);
         $row = $result->fetch();
 
